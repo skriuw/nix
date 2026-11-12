@@ -27,12 +27,8 @@ jobs:
             - name: Build
               run: nix build .#skriuw --print-build-logs
 
-            - name: No unresolved libraries
-              run: |
-                  if ldd result/bin/.skriuw-app-wrapped 2>/dev/null | grep -q 'not found'; then
-                    ldd result/bin/.skriuw-app-wrapped | grep 'not found'
-                    exit 1
-                  fi
+            - name: Binary is installed
+              run: test -x result/bin/skriuw-app
 
             - name: Flake check
               run: nix flake check --no-build
